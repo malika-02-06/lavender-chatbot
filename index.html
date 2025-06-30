@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MoodMate ✨</title>
+  <link rel="stylesheet" href="moodmate.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive;
+      background: url('https://i.pinimg.com/originals/5c/2e/40/5c2e4089346a54d4ca6e1292c1e684ad.gif') no-repeat center center fixed;
+      background-size: 100% 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app {
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 25px;
+      width: 600px;
+      height: 420px;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      backdrop-filter: blur(5px);
+    }
+
+    header {
+      background: #ff90b3;
+      color: white;
+      padding: 1.2rem;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    .chatbox {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bot, .user {
+      padding: 0.8rem 1rem;
+      border-radius: 20px;
+      max-width: 80%;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .bot {
+      align-self: flex-start;
+      background: #ffe1ec;
+    }
+
+    .user {
+      align-self: flex-end;
+      background: #d3e0ff;
+    }
+
+    .input-area {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    input {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #ff90b3;
+      border: none;
+      color: white;
+      padding: 0 1.2rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>💖 MoodMate</header>
+    <div class="chatbox" id="chatbox">
+      <div class="bot">Hey beautiful, how are you feeling today?❣️</div>
+    </div>
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Type your feels..." />
+      <button onclick="sendMessage()">Send💫</button>
+    </div>
+  </div>
+
+  <script>
+    const chatbox = document.getElementById("chatbox");
+    const userInput = document.getElementById("userInput");
+
+    const positiveWords = ['happy', 'good', 'excited', 'grateful', 'amazing', 'love', 'joy', 'ok', 'better','alive',")"];
+    const negativeWords = ['sad', 'lonely', 'anxious', 'tired', 'angry', 'depressed', 'cry', 'bad', 'stressed','down','('];
+
+    function detectMood(message) {
+      const lowerMsg = message.toLowerCase();
+      let score = 0;
+
+      positiveWords.forEach(word => {
+        if (lowerMsg.includes(word)) score += 1;
+      });
+
+      negativeWords.forEach(word => {
+        if (lowerMsg.includes(word)) score -= 1;
+      });
+
+      if (score > 0) return 'positive';
+      else if (score < 0) return 'negative';
+      else return 'neutral';
+    }
+
+    function getBotReply(mood) {
+      if (mood === 'positive') {
+        return "I love hearing that! You’re glowing today 🌞💫 Keep doing what lights you up! Maybe dance to your favorite song? 🎶";
+      } else if (mood === 'negative') {
+        return "Oh no, babe 💔 I’m wrapping you in a virtual hug rn. Let’s take a breath together 🌬️ And maybe write down what’s bothering you, or try a 5-minute walk—it can work wonders.💖";
+      } else {
+        return "Thanks for sharing that with me. I'm here for it all 💗 How about drinking some water or doing something that makes you smile just a little? 💧😊";
+      }
+    }
+
+    function sendMessage() {
+      const message = userInput.value;
+      if (!message.trim()) return;
+
+      const userBubble = document.createElement("div");
+      userBubble.className = "user";
+      userBubble.innerText = message;
+      chatbox.appendChild(userBubble);
+
+      const mood = detectMood(message);
+      const reply = getBotReply(mood);
+
+      const botBubble = document.createElement("div");
+      botBubble.className = "bot";
+      botBubble.innerText = reply;
+      chatbox.appendChild(botBubble);
+
+      userInput.value = "";
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+  </script>
+</body>
+</html>
