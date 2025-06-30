@@ -26,4 +26,4 @@ JavaScript
 No frameworks, no backend — just sweet front-end magic 💻✨
 
 🌐 Live Demo
-🔗 Click here to try MoodMate!
+🔗 [Click here to talk to Lavender Chatbot](https://malika-02-06.github.io/lavender-chatbot/)
